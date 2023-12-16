@@ -31,6 +31,10 @@ func NewKMSClient(endpoint string) (*kms.Client, error) {
 }
 
 func newConfig(endpoint string) (aws.Config, error) {
+	e := os.Getenv("AWS_ENDPOINT")
+	if endpoint == "" && e != "" {
+		endpoint = e
+	}
 	if endpoint == "" {
 		return config.LoadDefaultConfig(context.TODO())
 	}
