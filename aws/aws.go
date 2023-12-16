@@ -3,6 +3,7 @@ package aws
 import (
 	"context"
 	"fmt"
+	"os"
 
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/config"
@@ -34,8 +35,13 @@ func newConfig(endpoint string) (aws.Config, error) {
 		return config.LoadDefaultConfig(context.TODO())
 	}
 
+	r := os.Getenv("AWS_REGION")
+	if r == "" {
+		r = "use-east-1"
+	}
+
 	return config.LoadDefaultConfig(context.TODO(),
-		config.WithRegion("us-east-1"),
+		config.WithRegion(r),
 		config.WithEndpointResolverWithOptions(aws.EndpointResolverWithOptionsFunc(
 			func(service, region string, options ...interface{}) (aws.Endpoint, error) {
 				return aws.Endpoint{URL: endpoint}, nil
