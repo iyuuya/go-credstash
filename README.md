@@ -40,46 +40,46 @@ Default region name [None]: ap-northeast-1
 Default output format [None]: json
 
 $ export AWS_REGION=ap-northeast-1
-$ ENDPOINT=https://localhost.localstack.cloud:4566
+$ export AWS_ENDPOINT=https://localhost.localstack.cloud:4566
 
 # create ksm key and alias
-$ KEY_ID=$(aws --profile localstack --endpoint-url $ENDPOINT kms create-key | jq -r .KeyMetadata.KeyId); echo $KEY_ID
-$ aws --profile localstack --endpoint-url $ENDPOINT kms create-alias --alias-name alias/credstash --target-key-id $KEY_ID
+$ KEY_ID=$(aws --profile localstack --endpoint-url $AWS_ENDPOINT kms create-key | jq -r .KeyMetadata.KeyId); echo $KEY_ID
+$ aws --profile localstack --endpoint-url $AWS_ENDPOINT kms create-alias --alias-name alias/credstash --target-key-id $KEY_ID
 
 # setup (create table)
-$ credstash --endpoint=$ENDPOINT setup
+$ credstash setup
 
 # save to dynamodb
-$ credstash --endpoint=$ENDPOINT put hello
+$ credstash put hello
 secret value> world v1
 
 # versioning
-$ credstash --endpoint=$ENDPOINT put hello
+$ credstash put hello
 secret value> world v2
 
 # show list
-$ credstash --endpoint=$ENDPOINT list
+$ credstash list
 hello
 hello
 
 # show list with version
-$ credstash --endpoint=$ENDPOINT list -v
+$ credstash list -v
 hello --version: 0000000000000000001
 hello --version: 0000000000000000002
 
 # get a value
-$ credstash --endpoint=$ENDPOINT get hello
+$ credstash get hello
 world v2
 
 # get a value by specific version
-$ credstash --endpoint=$ENDPOINT get hello -v 0000000000000000001
+$ credstash get hello -v 0000000000000000001
 world v1
 
 # deletes
-$ credstash --endpoint=$ENDPOINT delete hello -v 0000000000000000001
-$ credstash --endpoint=$ENDPOINT list -v
+$ credstash delete hello -v 0000000000000000001
+$ credstash list -v
 hello --version: 0000000000000000002
 
-$ credstash --endpoint=$ENDPOINT delete hello
-$ credstash --endpoint=$ENDPOINT list
+$ credstash delete hello
+$ credstash list
 ```
