@@ -3,6 +3,7 @@ package app
 import (
 	"fmt"
 
+	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
 	"github.com/aws/aws-sdk-go-v2/service/kms"
 
 	"github.com/iyuuya/go-credstash/aws"
@@ -26,6 +27,10 @@ func NewApp(endpoint string) (*App, error) {
 	}
 
 	return &App{item.NewDynamoDB(d), k}, nil
+}
+
+func NewAppWithClients(d *dynamodb.Client, k *kms.Client) *App {
+	return &App{DynamoDB: item.NewDynamoDB(d), KMS: k}
 }
 
 func (a *App) List() ([]*item.Item, error) {
