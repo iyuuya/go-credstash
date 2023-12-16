@@ -92,7 +92,7 @@ func (db *DynamoDB) Put(i *Item) error {
 		}
 	}
 
-	out, err := db.client.PutItem(context.TODO(), &dynamodb.PutItemInput{
+	_, err := db.client.PutItem(context.TODO(), &dynamodb.PutItemInput{
 		TableName:                aws.String(db.tableName),
 		ConditionExpression:      aws.String("attribute_not_exists(#name)"),
 		ExpressionAttributeNames: map[string]string{"#name": "name"},
@@ -107,7 +107,6 @@ func (db *DynamoDB) Put(i *Item) error {
 	if err != nil {
 		return err
 	}
-	log.Printf("%#v", *out)
 	return nil
 }
 
