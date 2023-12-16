@@ -1,4 +1,4 @@
-# go-credstash
+# go-credstash [![Go](https://github.com/iyuuya/go-credstash/actions/workflows/go.yml/badge.svg)](https://github.com/iyuuya/go-credstash/actions/workflows/go.yml)
 
 ## Install
 
