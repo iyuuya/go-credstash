@@ -1,5 +1,7 @@
 # go-credstash [![Go](https://github.com/iyuuya/go-credstash/actions/workflows/go.yml/badge.svg)](https://github.com/iyuuya/go-credstash/actions/workflows/go.yml)
 
+go-credstash is a go port of [CredStash](https://github.com/fugue/credstash) and [RCredStash](https://github.com/adorechic/rcredstash)
+
 ## Install
 
 ```
@@ -83,3 +85,7 @@ hello --version: 0000000000000000002
 $ credstash delete hello
 $ credstash list
 ```
+
+## License
+
+go-credstash is released under the [MIT License](http://opensource.org/licenses/MIT).
