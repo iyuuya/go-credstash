@@ -37,7 +37,7 @@ func newConfig(endpoint string) (aws.Config, error) {
 
 	r := os.Getenv("AWS_REGION")
 	if r == "" {
-		r = "use-east-1"
+		r = "us-east-1"
 	}
 
 	return config.LoadDefaultConfig(context.TODO(),
