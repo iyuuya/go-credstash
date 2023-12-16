@@ -114,6 +114,9 @@ func (s *Secret) currentVersion(db *item.DynamoDB) int {
 	if err != nil {
 		return 0
 	}
+	if len(items) == 0 {
+		return 0
+	}
 
 	v := *items[0].GetVersion()
 	n, err := strconv.Atoi(v)
