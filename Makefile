@@ -8,3 +8,7 @@ bin/credstash: $(GO_FILES)
 .PHONY: run
 run:
 	@go run github.com/iyuuya/go-credstash/cmd/credstash
+
+.PHONY: install
+install:
+	@go install github.com/iyuuya/go-credstash/cmd/credstash@latest
