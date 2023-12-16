@@ -17,7 +17,7 @@ var listCmd = &cobra.Command{
 		if err != nil {
 			log.Fatal(err)
 		}
-		items, err := app.DynamoDB.List()
+		items, err := app.List()
 		if err != nil {
 			log.Fatal(err)
 		}

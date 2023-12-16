@@ -28,6 +28,10 @@ func NewApp(endpoint string) (*App, error) {
 	return &App{item.NewDynamoDB(d), k}, nil
 }
 
+func (a *App) List() ([]*item.Item, error) {
+	return a.DynamoDB.List()
+}
+
 func (a *App) Get(name string, ctx map[string]string, version string) (string, error) {
 	sec, err := secret.Find(a.DynamoDB, a.KMS, name, ctx, version)
 	if err != nil {
