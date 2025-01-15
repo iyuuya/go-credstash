@@ -13,28 +13,41 @@ import (
 )
 
 func NewDynamoDBClient(endpoint string) (*dynamodb.Client, error) {
-	cfg, err := newConfig(endpoint)
-	if err != nil {
-		return nil, fmt.Errorf("unable to load SDK config, %v", err)
-	}
-
-	return dynamodb.NewFromConfig(cfg), nil
-}
-
-func NewKMSClient(endpoint string) (*kms.Client, error) {
-	cfg, err := newConfig(endpoint)
-	if err != nil {
-		return nil, fmt.Errorf("unable to load SDK config, %v", err)
-	}
-
-	return kms.NewFromConfig(cfg), nil
-}
-
-func newConfig(endpoint string) (aws.Config, error) {
 	e := os.Getenv("AWS_ENDPOINT")
 	if endpoint == "" && e != "" {
 		endpoint = e
 	}
+
+	cfg, err := newConfig(endpoint)
+	if err != nil {
+		return nil, fmt.Errorf("unable to load SDK config, %v", err)
+	}
+
+	return dynamodb.NewFromConfig(cfg, func(o *dynamodb.Options) {
+		if endpoint != "" {
+			o.BaseEndpoint = aws.String(endpoint)
+		}
+	}), nil
+}
+
+func NewKMSClient(endpoint string) (*kms.Client, error) {
+	e := os.Getenv("AWS_ENDPOINT")
+	if endpoint == "" && e != "" {
+		endpoint = e
+	}
+
+	cfg, err := newConfig(endpoint)
+	if err != nil {
+		return nil, fmt.Errorf("unable to load SDK config, %v", err)
+	}
+	return kms.NewFromConfig(cfg, func(o *kms.Options) {
+		if endpoint != "" {
+			o.BaseEndpoint = aws.String(endpoint)
+		}
+	}), nil
+}
+
+func newConfig(endpoint string) (aws.Config, error) {
 	if endpoint == "" {
 		return config.LoadDefaultConfig(context.TODO())
 	}
@@ -44,12 +57,9 @@ func newConfig(endpoint string) (aws.Config, error) {
 		r = "us-east-1"
 	}
 
+	// Use dummy credentials for local DynamoDB when endpoint is set
 	return config.LoadDefaultConfig(context.TODO(),
 		config.WithRegion(r),
-		config.WithEndpointResolverWithOptions(aws.EndpointResolverWithOptionsFunc(
-			func(service, region string, options ...interface{}) (aws.Endpoint, error) {
-				return aws.Endpoint{URL: endpoint}, nil
-			})),
 		config.WithCredentialsProvider(credentials.StaticCredentialsProvider{
 			Value: aws.Credentials{
 				AccessKeyID: "dummy", SecretAccessKey: "dummy", SessionToken: "dummy",
