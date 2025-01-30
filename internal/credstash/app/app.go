@@ -66,7 +66,7 @@ func (a *App) Delete(name string, version string) error {
 	if err != nil {
 		return err
 	}
-	if err != nil || len(items) == 0 {
+	if len(items) == 0 {
 		return fmt.Errorf("Item not found: %s", name)
 	}
 
