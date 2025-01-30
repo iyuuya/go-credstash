@@ -9,8 +9,9 @@ import (
 var deleteVersion string
 
 var deleteCmd = &cobra.Command{
-	Use:   "delete",
-	Short: "delete a key",
+	Use:   "delete [KEY_NAME]",
+	Short: "Delete a key",
+	Args:  cobra.ExactArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
 		keyName := args[0]
 
