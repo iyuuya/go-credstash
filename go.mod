@@ -7,7 +7,7 @@ require (
 	github.com/aws/aws-sdk-go-v2/config v1.29.4
 	github.com/aws/aws-sdk-go-v2/credentials v1.17.59
 	github.com/aws/aws-sdk-go-v2/service/dynamodb v1.40.0
-	github.com/aws/aws-sdk-go-v2/service/kms v1.37.16
+	github.com/aws/aws-sdk-go-v2/service/kms v1.37.18
 	github.com/spf13/cobra v1.8.1
 )
 
